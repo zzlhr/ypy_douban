@@ -6,7 +6,7 @@ from urllib.parse import urlencode
 import requests
 
 # 线程数
-thread_num = 100
+thread_num = 10
 # 关键字
 keyword = '妹子'
 
@@ -32,14 +32,13 @@ class taskThread(threading.Thread):
             array = parsed_json['images']
             for a in array:
                 self.download(a['src'])
-        overTask.append(self.threadID)
+            overTask.append(self.threadID)
 
     def download(self, url):
         # print('download 被调用')
         global number
         global threadLock
         ir = requests.get(url, stream=True)
-        print(ir.status_code)
         filename = str.split(url, '/')
         if ir.status_code == 200:
             threadLock.acquire()
@@ -57,7 +56,7 @@ threads = []
 overTask = []
 number = 0
 threadLock = threading.Lock()
-
+useTime = 0
 while thread_num > 0:
     threads.append(taskThread(thread_num, keyword))
     thread_num = thread_num - 1
@@ -66,10 +65,12 @@ for t in threads:
     print('开始线程：' + str(t.threadID))
     t.start()
 
-# print('启动完成。。。。')
 while True:
-    print(len(overTask))
     if len(overTask) == thread_num:
-        # print('执行完成')
+        print("总耗时：" + str(useTime) + "s")
         exit(0)
+    useTime += 1
     sleep(1)
+
+
+
