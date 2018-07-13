@@ -1,6 +1,6 @@
 import json
 import threading
-from time import sleep
+import time
 from urllib.parse import urlencode
 
 import requests
@@ -52,25 +52,23 @@ class taskThread(threading.Thread):
             threadLock.release()
 
 
+beginTime = time.time()
+
 threads = []
 overTask = []
 number = 0
 threadLock = threading.Lock()
 useTime = 0
-while thread_num > 0:
-    threads.append(taskThread(thread_num, keyword))
-    thread_num = thread_num - 1
+t_name = thread_num
+
+while t_name > 0:
+    threads.append(taskThread(t_name, keyword))
+    t_name = t_name - 1
 
 for t in threads:
     print('开始线程：' + str(t.threadID))
     t.start()
 
-while True:
-    if len(overTask) == thread_num:
-        print("总耗时：" + str(useTime) + "s")
-        exit(0)
-    useTime += 1
-    sleep(1)
-
-
-
+for t in threads:
+    t.join()
+print("总耗时：" + str(time.time() - beginTime) + "秒")
