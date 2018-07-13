@@ -2,7 +2,7 @@
 
 ### 多线程豆瓣图片爬虫
 
-![](https://ws1.sinaimg.cn/large/005tjobOly1ft8a9nzkftg30vs0nkqv5.gif)
+![](https://ws1.sinaimg.cn/large/005tjobOly1ft8aglkw24g310a0nc4qp.gif)
 ```bash
 git clone https://github.com/zzlhr/ypy_douban.git
 
